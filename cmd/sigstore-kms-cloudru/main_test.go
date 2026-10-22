@@ -43,6 +43,19 @@ func TestRunWrongProtocolVersion(t *testing.T) {
 	}
 }
 
+func TestRunEmptyPluginJSON(t *testing.T) {
+	t.Parallel()
+
+	code, stdout := runPlugin(t, []string{pluginArgv0, "v1", "{}"}, stubLoader(t))
+	if code == 0 {
+		t.Fatalf("run() = %d, want non-zero", code)
+	}
+
+	if !strings.Contains(stdout, errIncompletePluginArgs.Error()) {
+		t.Fatalf("stdout = %q, want %q", stdout, errIncompletePluginArgs)
+	}
+}
+
 func TestRunLoaderError(t *testing.T) {
 	t.Parallel()
 

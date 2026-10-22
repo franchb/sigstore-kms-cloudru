@@ -22,6 +22,7 @@ const (
 var (
 	errMissingProtocolVersion  = errors.New("missing protocol version")
 	errExpectedProtocolVersion = errors.New("expected protocol version")
+	errIncompletePluginArgs    = errors.New("plugin args require initOptions and method args")
 )
 
 func main() {
@@ -48,6 +49,10 @@ func run(
 	pluginArgs, err := handler.GetPluginArgs(args)
 	if err != nil {
 		return writeError(stdout, err)
+	}
+
+	if pluginArgs == nil || pluginArgs.InitOptions == nil || pluginArgs.MethodArgs == nil {
+		return writeError(stdout, errIncompletePluginArgs)
 	}
 
 	signerVerifier, err := load(context.Background(), pluginArgs.InitOptions.KeyResourceID)
