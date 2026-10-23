@@ -80,9 +80,11 @@ func TestRunLoaderError(t *testing.T) {
 	called := false
 	load := func(_ context.Context, resourceID string) (*cloudru.SignerVerifier, error) {
 		called = true
+
 		if resourceID != keyResourceID {
 			t.Errorf("loader resourceID = %q, want %q", resourceID, keyResourceID)
 		}
+
 		return nil, errLoaderBoom
 	}
 

@@ -32,8 +32,9 @@ import (
 func signRequest(req *http.Request, ak, sk string, when time.Time) error {
 	body, err := io.ReadAll(req.Body)
 	if err != nil {
-		return err
+		return fmt.Errorf("cloudru: read request body: %w", err)
 	}
+
 	req.Body = io.NopCloser(bytes.NewReader(body))
 	req.ContentLength = int64(len(body))
 	req.Header.Set("X-Sdk-Date", when.UTC().Format("20060102T150405Z"))
@@ -43,7 +44,9 @@ func signRequest(req *http.Request, ak, sk string, when time.Time) error {
 	for name := range req.Header {
 		names = append(names, strings.ToLower(name))
 	}
+
 	sort.Strings(names)
+
 	var headers strings.Builder
 	for _, name := range names {
 		headers.WriteString(name)
@@ -51,11 +54,14 @@ func signRequest(req *http.Request, ak, sk string, when time.Time) error {
 		headers.WriteString(strings.TrimSpace(req.Header.Get(name)))
 		headers.WriteByte('\n')
 	}
+
 	signed := strings.Join(names, ";")
+
 	path := req.URL.EscapedPath()
 	if !strings.HasSuffix(path, "/") {
 		path += "/"
 	}
+
 	sum := sha256.Sum256(body)
 	canonical := strings.Join([]string{
 		req.Method,
@@ -74,5 +80,6 @@ func signRequest(req *http.Request, ak, sk string, when time.Time) error {
 		"SDK-HMAC-SHA256 Access=%s, SignedHeaders=%s, Signature=%s",
 		ak, signed, signature,
 	))
+
 	return nil
 }
