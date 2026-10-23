@@ -1,7 +1,7 @@
 # CI, Security, and Release Tooling — Design
 
 Date: 2026-10-22
-Status: Pending review
+Status: Approved
 
 ## Decisions already made
 
