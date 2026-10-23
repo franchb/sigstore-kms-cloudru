@@ -1,0 +1,3 @@
+# An ignore is an [[IgnoredVulns]] entry with an id and a reason.
+# Add one only after a scan of this module reports that id for a package
+# this module does not import and that has no fixed version.

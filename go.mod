@@ -2,6 +2,8 @@ module github.com/franchb/sigstore-kms-cloudru
 
 go 1.27.0
 
+toolchain go1.27.3
+
 require github.com/sigstore/sigstore v1.11.0
 
 require (
