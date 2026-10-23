@@ -1,0 +1,5 @@
+FROM gcr.io/oss-fuzz-base/base-builder-go@sha256:1dbadefbb28c6bfd796c64d9c2115977deb8f19494533cc5a3b724c3441df23d
+COPY . $SRC/sigstore-kms-cloudru
+WORKDIR $SRC/sigstore-kms-cloudru
+COPY .clusterfuzzlite/build.sh $SRC/
+ENV GOTOOLCHAIN=auto
