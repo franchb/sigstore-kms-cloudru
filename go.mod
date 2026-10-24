@@ -4,7 +4,7 @@ go 1.27.0
 
 toolchain go1.27.3
 
-require github.com/sigstore/sigstore v1.11.0
+require github.com/sigstore/sigstore v1.11.1
 
 require (
 	github.com/google/go-containerregistry v0.22.1 // indirect
